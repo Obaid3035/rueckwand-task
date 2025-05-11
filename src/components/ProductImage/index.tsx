@@ -1,23 +1,12 @@
 import type React from "react";
 import { useRef, useState } from "react";
+import { useCircle } from "../../hooks/useCircle";
+import type { ICircle } from "../../type";
 import { getRandomColor } from "../../utils/helper";
 
-interface ICircle {
-	id: number;
-	x: number;
-	y: number;
-	color: string;
-}
-
 const ProductImage = () => {
-	const [circles, setCircles] = useState<ICircle[]>([
-		{
-			id: 1,
-			x: 150,
-			y: 100,
-			color: getRandomColor(),
-		},
-	]);
+	const { circles, setCircles } = useCircle();
+
 	const [dragging, setDragging] = useState(false);
 	const [activeCircleId, setActiveCircleId] = useState(1);
 	const containerRef = useRef<HTMLDivElement>(null);
