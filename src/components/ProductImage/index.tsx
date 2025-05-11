@@ -104,26 +104,29 @@ const ProductImage = () => {
 	};
 
 	return (
-		<div
-			ref={containerRef}
-			className={`col-span-7 relative w-[${containerWidth}px] h-[${containerHeight}px] cursor-move`}
-			onMouseLeave={handleMouseUp}
-			onMouseUp={handleMouseUp}
-			onMouseMove={handleMouseMove}
-		>
-			<img
-				src="/img.jpg"
-				alt="product"
-				className="object-cover w-full h-full"
-			/>
-			<button onClick={onAddCircleHandler}>Add</button>
-			{circles.map((circle) => (
-				<Circle
-					key={circle.id}
-					circle={circle}
-					handleMouseDown={handleMouseDown}
-				/>
-			))}
+		<div className="bg-apple-gray-100 rounded-apple p-6 @md:p-8 flex items-center justify-center">
+			<div
+				ref={containerRef}
+				className="relative cursor-move rounded-lg overflow-hidden shadow-apple"
+				style={{
+					width: `${containerWidth}px`,
+					height: `${containerHeight}px`,
+					backgroundImage: `url('/img.jpg')`,
+					backgroundSize: "cover",
+					backgroundPosition: "center",
+				}}
+				onMouseLeave={handleMouseUp}
+				onMouseUp={handleMouseUp}
+				onMouseMove={handleMouseMove}
+			>
+				{circles.map((circle) => (
+					<Circle
+						key={circle.id}
+						circle={circle}
+						handleMouseDown={handleMouseDown}
+					/>
+				))}
+			</div>
 		</div>
 	);
 };

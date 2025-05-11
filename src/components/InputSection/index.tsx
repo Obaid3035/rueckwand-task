@@ -1,3 +1,4 @@
+import plusIcon from "../../assets/plus.png";
 import { useCircle } from "../../hooks/useCircle";
 import {
 	circleSize,
@@ -49,7 +50,13 @@ const InputSection = () => {
 	};
 
 	return (
-		<div className="p-4 space-y-4">
+		<div className="card flex flex-col gap-7">
+			<div className="flex items-center justify-between">
+				<h2 className="text-xl font-medium text-start text-apple-dark">
+					Add Circle
+				</h2>
+				<img src={plusIcon} alt="Add" className="w-5 h-5 cursor-pointer" />
+			</div>
 			{circles.map((circle) => (
 				<CoordInput
 					key={circle.id}
