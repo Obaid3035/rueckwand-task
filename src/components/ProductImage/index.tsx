@@ -20,7 +20,7 @@ const ProductImage = () => {
   
   const zoomLevel = 2; // 2x zoom
   const circleSize = 120;
-  const maxCircle = 5;
+  const maxCircle = 25;
 
 
   const findValidPosition = () => {
@@ -37,7 +37,24 @@ const ProductImage = () => {
         y: newY
     }
 
-    return newCircle
+    const hasOverlap = circles.some(circle => overLapCircle(circle, newCircle));
+
+
+    if(!hasOverlap)     return newCircle
+  }
+
+  const overLapCircle = (circle1: ICircle, circle2: ICircle) => {
+    const c1x = circle1.x + circleSize / 2;
+    const c2x = circle2.x + circleSize / 2;
+    const c1y = circle1.y + circleSize / 2;
+    const c2y = circle2.y + circleSize / 2;
+
+    const distance = Math.sqrt(
+        Math.pow(c2x - c1x, 2) +
+        Math.pow(c2y - c1y, 2)
+    )
+
+    return distance < circleSize;
   }
 
   const handleMouseDown = (e: React.MouseEvent, circleId: number) => {
@@ -60,11 +77,14 @@ const ProductImage = () => {
     const validPosition = findValidPosition();
 
     if(validPosition) {
+        console.log(validPosition)
         setCircles([
             ...circles,
             {...validPosition}
         ])
     }
+
+    console.log(validPosition)
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -88,7 +108,16 @@ const ProductImage = () => {
         return circle
     })
 
-    setCircles(updatedCircle);
+    const movedCircle = updatedCircle.find(circle => circle.id === activeCircleId);
+
+    if(!movedCircle) return;
+
+    const hasOverLap = updatedCircle.some((circle) => {
+        if(circle.id === activeCircleId) return false;
+        return overLapCircle(circle, movedCircle)
+    })
+
+    if(!hasOverLap) setCircles(updatedCircle);
   };
 
   return (
