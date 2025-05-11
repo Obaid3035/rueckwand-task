@@ -1,10 +1,12 @@
 import type React from "react";
 import { useRef, useState } from "react";
+import { getRandomColor } from "../../utils/helper";
 
 interface ICircle {
 	id: number;
 	x: number;
 	y: number;
+	color: string;
 }
 
 const ProductImage = () => {
@@ -13,13 +15,12 @@ const ProductImage = () => {
 			id: 1,
 			x: 150,
 			y: 100,
+			color: getRandomColor(),
 		},
 	]);
 	const [dragging, setDragging] = useState(false);
 	const [activeCircleId, setActiveCircleId] = useState(1);
 	const containerRef = useRef<HTMLDivElement>(null);
-
-	const zoomLevel = 2; // 2x zoom
 	const circleSize = 120;
 	const maxCircle = 25;
 
@@ -29,7 +30,7 @@ const ProductImage = () => {
 		const imageRect = containerRef.current.getBoundingClientRect();
 		const maxAttempt = 50;
 
-		for (let i = 0; i < 50; i++) {
+		for (let i = 0; i < maxAttempt; i++) {
 			const newX = Math.random() * (imageRect.width - circleSize);
 			const newY = Math.random() * (imageRect.height - circleSize);
 
@@ -37,6 +38,7 @@ const ProductImage = () => {
 				id: circles.length + 1,
 				x: newX,
 				y: newY,
+				color: getRandomColor(),
 			};
 
 			const hasOverlap = circles.some((circle) =>
@@ -136,18 +138,16 @@ const ProductImage = () => {
 			{circles.map((circle) => (
 				<div
 					key={circle.id}
-					className="border-2 border-black rounded-full absolute cursor-move shadow-lg"
+					className="rounded-full absolute cursor-move shadow-lg backdrop-blur-md bg-white/30 border border-white/40"
 					style={{
-						backgroundImage: "url(/img.jpg)",
-						backgroundRepeat: "no-repeat",
+						border: "2px solid black",
 						width: `${circleSize}px`,
 						height: `${circleSize}px`,
 						left: `${circle.x}px`,
 						top: `${circle.y}px`,
-						backgroundSize: `${600 * zoomLevel}px ${400 * zoomLevel}px`,
-						backgroundPosition: `-${circle.x * zoomLevel}px -${
-							circle.y * zoomLevel
-						}px`,
+						backgroundColor: circle.color,
+						mixBlendMode: "multiply",
+						opacity: 1,
 					}}
 					onMouseDown={(e) => handleMouseDown(e, circle.id)}
 				/>
