@@ -8,6 +8,7 @@ import {
 	maxCircle,
 } from "../../utils/constant";
 import { getRandomColor, overLapCircle } from "../../utils/helper";
+import Circle from "./Circle";
 
 const ProductImage = () => {
 	const { circles, setCircles } = useCircle();
@@ -117,20 +118,10 @@ const ProductImage = () => {
 			/>
 			<button onClick={onAddCircleHandler}>Add</button>
 			{circles.map((circle) => (
-				<div
+				<Circle
 					key={circle.id}
-					className="rounded-full absolute cursor-move shadow-lg backdrop-blur-md bg-white/30 border border-white/40"
-					style={{
-						border: "2px solid black",
-						width: `${circleSize}px`,
-						height: `${circleSize}px`,
-						left: `${circle.x}px`,
-						top: `${circle.y}px`,
-						backgroundColor: circle.color,
-						mixBlendMode: "multiply",
-						opacity: 1,
-					}}
-					onMouseDown={(e) => handleMouseDown(e, circle.id)}
+					circle={circle}
+					handleMouseDown={handleMouseDown}
 				/>
 			))}
 		</div>
