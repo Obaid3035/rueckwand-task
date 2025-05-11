@@ -1,8 +1,13 @@
 import type React from "react";
 import { useRef, useState } from "react";
 import { useCircle } from "../../hooks/useCircle";
-import type { ICircle } from "../../type";
-import { getRandomColor } from "../../utils/helper";
+import {
+	circleSize,
+	containerHeight,
+	containerWidth,
+	maxCircle,
+} from "../../utils/constant";
+import { getRandomColor, overLapCircle } from "../../utils/helper";
 
 const ProductImage = () => {
 	const { circles, setCircles } = useCircle();
@@ -10,8 +15,6 @@ const ProductImage = () => {
 	const [dragging, setDragging] = useState(false);
 	const [activeCircleId, setActiveCircleId] = useState(1);
 	const containerRef = useRef<HTMLDivElement>(null);
-	const circleSize = 120;
-	const maxCircle = 25;
 
 	const findValidPosition = () => {
 		if (!containerRef.current) return;
@@ -36,17 +39,6 @@ const ProductImage = () => {
 
 			if (!hasOverlap) return newCircle;
 		}
-	};
-
-	const overLapCircle = (circle1: ICircle, circle2: ICircle) => {
-		const c1x = circle1.x + circleSize / 2;
-		const c2x = circle2.x + circleSize / 2;
-		const c1y = circle1.y + circleSize / 2;
-		const c2y = circle2.y + circleSize / 2;
-
-		const distance = Math.sqrt((c2x - c1x) ** 2 + (c2y - c1y) ** 2);
-
-		return distance < circleSize;
 	};
 
 	const handleMouseDown = (e: React.MouseEvent, circleId: number) => {
@@ -113,7 +105,7 @@ const ProductImage = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="col-span-7 relative w-[600px] h-[400px] cursor-move"
+			className={`col-span-7 relative w-[${containerWidth}px] h-[${containerHeight}px] cursor-move`}
 			onMouseLeave={handleMouseUp}
 			onMouseUp={handleMouseUp}
 			onMouseMove={handleMouseMove}
