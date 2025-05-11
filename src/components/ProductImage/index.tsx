@@ -1,24 +1,49 @@
 import React, { useState, useRef } from "react";
 
 interface ICircle {
+    id: number;
     x: number;
     y: number;
 }
 
 const ProductImage = () => {
-  const [circle, setCircle] = useState<ICircle>({
-    x: 150,
-    y: 100
-  });
+  const [circles, setCircles] = useState<ICircle[]>([
+    {
+        id: 1,
+        x: 150,
+        y: 100
+      }
+  ]);
   const [dragging, setDragging] = useState(false);
+  const [activeCircleId, setActiveCircleId] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const zoomLevel = 2; // 2x zoom
   const circleSize = 120;
+  const maxCircle = 5;
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+
+  const findValidPosition = () => {
+    if(!containerRef.current) return;
+
+    const imageRect = containerRef.current.getBoundingClientRect();
+
+    const newX = Math.random() * (imageRect.width - circleSize);
+    const newY = Math.random() * (imageRect.height - circleSize);
+
+    const newCircle = {
+        id: circles.length + 1,
+        x: newX,
+        y: newY
+    }
+
+    return newCircle
+  }
+
+  const handleMouseDown = (e: React.MouseEvent, circleId: number) => {
     e.stopPropagation();
     setDragging(true);
+    setActiveCircleId(circleId);
     document.body.style.userSelect = 'none';
   };
 
@@ -26,6 +51,21 @@ const ProductImage = () => {
     setDragging(false);
     document.body.style.userSelect = 'auto';
   };
+
+  const onAddCircleHandler = () => {
+    if(circles.length > maxCircle) {
+        return;
+    }
+
+    const validPosition = findValidPosition();
+
+    if(validPosition) {
+        setCircles([
+            ...circles,
+            {...validPosition}
+        ])
+    }
+  }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!dragging) return;
@@ -39,10 +79,16 @@ const ProductImage = () => {
     newX = Math.max(0, Math.min(newX, imageRect.width - circleSize));
     newY = Math.max(0, Math.min(newY, imageRect.height - circleSize));
 
-    setCircle({
-      x: newX,
-      y: newY
-    });
+    const updatedCircle = circles.map((circle) => {
+        if(activeCircleId === circle.id) {
+            return {
+                ...circle, x: newX, y: newY
+            }
+        }
+        return circle
+    })
+
+    setCircles(updatedCircle);
   };
 
   return (
@@ -58,20 +104,25 @@ const ProductImage = () => {
         alt="product" 
         className="object-cover w-full h-full"
       />
-      <div
-        className="border-2 border-black rounded-full absolute cursor-move shadow-lg"
-        style={{
-          backgroundImage: 'url(/img.jpg)',
-          backgroundRepeat: 'no-repeat',
-          width: `${circleSize}px`,
-          height: `${circleSize}px`,
-          left: `${circle.x}px`,
-          top: `${circle.y}px`,
-          backgroundSize: `${600 * zoomLevel}px ${400 * zoomLevel}px`,
-          backgroundPosition: `-${circle.x * zoomLevel}px -${circle.y * zoomLevel}px`,
-        }}
-        onMouseDown={handleMouseDown}
+      <button onClick={onAddCircleHandler}>Add</button>
+      {
+        circles.map((circle) => (
+            <div
+                className="border-2 border-black rounded-full absolute cursor-move shadow-lg"
+                style={{
+                backgroundImage: 'url(/img.jpg)',
+                backgroundRepeat: 'no-repeat',
+                width: `${circleSize}px`,
+                height: `${circleSize}px`,
+                left: `${circle.x}px`,
+                top: `${circle.y}px`,
+                backgroundSize: `${600 * zoomLevel}px ${400 * zoomLevel}px`,
+                backgroundPosition: `-${circle.x * zoomLevel}px -${circle.y * zoomLevel}px`,
+                }}
+                onMouseDown={(e) => handleMouseDown(e, circle.id)}
       />
+        ))
+      }
     </div>
   );
 };
