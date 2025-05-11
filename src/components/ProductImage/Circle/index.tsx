@@ -2,13 +2,12 @@ import React from "react";
 import type { ICircle } from "../../../type";
 import { circleSize } from "../../../utils/constant";
 
-const Circle = ({
-	circle,
-	handleMouseDown,
-}: {
+interface CircleProps {
 	circle: ICircle;
 	handleMouseDown: (e: React.MouseEvent, circleId: number) => void;
-}) => {
+}
+
+const Circle: React.FC<CircleProps> = ({ circle, handleMouseDown }) => {
 	return (
 		<div
 			key={circle.id}
