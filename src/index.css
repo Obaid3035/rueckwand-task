@@ -35,7 +35,31 @@
   }
 
   .card {
-    @apply border border-apple-gray-200 bg-white p-10 rounded-apple shadow-apple transition hover:shadow-apple-hover;
+    @apply border border-apple-gray-200 bg-white p-8 rounded-apple shadow-apple transition hover:shadow-apple-hover;
   }
 
+}
+
+
+.apple-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.apple-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.apple-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.apple-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.apple-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
 }

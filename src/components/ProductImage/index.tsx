@@ -5,9 +5,8 @@ import {
 	circleSize,
 	containerHeight,
 	containerWidth,
-	maxCircle,
 } from "../../utils/constant";
-import { getRandomColor, overLapCircle } from "../../utils/helper";
+import { overLapCircle } from "../../utils/helper";
 import Circle from "./Circle";
 
 const ProductImage = () => {
@@ -16,31 +15,6 @@ const ProductImage = () => {
 	const [dragging, setDragging] = useState(false);
 	const [activeCircleId, setActiveCircleId] = useState(1);
 	const containerRef = useRef<HTMLDivElement>(null);
-
-	const findValidPosition = () => {
-		if (!containerRef.current) return;
-
-		const imageRect = containerRef.current.getBoundingClientRect();
-		const maxAttempt = 50;
-
-		for (let i = 0; i < maxAttempt; i++) {
-			const newX = Math.random() * (imageRect.width - circleSize);
-			const newY = Math.random() * (imageRect.height - circleSize);
-
-			const newCircle = {
-				id: circles.length + 1,
-				x: newX,
-				y: newY,
-				color: getRandomColor(),
-			};
-
-			const hasOverlap = circles.some((circle) =>
-				overLapCircle(circle, newCircle),
-			);
-
-			if (!hasOverlap) return newCircle;
-		}
-	};
 
 	const handleMouseDown = (e: React.MouseEvent, circleId: number) => {
 		e.stopPropagation();
@@ -52,18 +26,6 @@ const ProductImage = () => {
 	const handleMouseUp = () => {
 		setDragging(false);
 		document.body.style.userSelect = "auto";
-	};
-
-	const onAddCircleHandler = () => {
-		if (circles.length > maxCircle) {
-			return;
-		}
-
-		const validPosition = findValidPosition();
-
-		if (validPosition) {
-			setCircles([...circles, { ...validPosition }]);
-		}
 	};
 
 	const handleMouseMove = (e: React.MouseEvent) => {
@@ -107,7 +69,7 @@ const ProductImage = () => {
 		<div className="bg-apple-gray-100 rounded-apple p-6 @md:p-8 flex items-center justify-center">
 			<div
 				ref={containerRef}
-				className="relative cursor-move rounded-lg overflow-hidden shadow-apple"
+				className="relative product-image cursor-move rounded-lg overflow-hidden shadow-apple"
 				style={{
 					width: `${containerWidth}px`,
 					height: `${containerHeight}px`,

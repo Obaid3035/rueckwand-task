@@ -21,9 +21,6 @@ const CoordInput: React.FC<CoordInputProps> = ({
 }) => {
 	const renderInput = (label: "X" | "Y", value: number, max: number) => (
 		<div className="flex flex-col gap-1">
-			<label className="text-sm text-gray-600 font-medium">
-				{label === "X" ? "Width" : "Height"}
-			</label>
 			<div className="flex items-center rounded-apple overflow-hidden border border-gray-300 bg-white shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
 				<input
 					type="number"
