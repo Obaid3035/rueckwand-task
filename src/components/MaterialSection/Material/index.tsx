@@ -15,7 +15,6 @@ const Material = ({ data, isSelected, onSelect }: MaterialProps) => {
 	const { title, image, description } = data;
 	const [height, setHeight] = useState(0);
 	const contentRef = useRef<HTMLDivElement>(null);
-	const [shouldRender, setShouldRender] = useState(isSelected);
 
 	useEffect(() => {
 		if (!contentRef.current) return;
@@ -43,7 +42,7 @@ const Material = ({ data, isSelected, onSelect }: MaterialProps) => {
 								: "w-0 h-0 opacity-0 scale-95"
 						}`}
 				>
-					{(isSelected || shouldRender) && (
+					{isSelected && (
 						<img
 							src={image}
 							alt={title}
@@ -66,7 +65,7 @@ const Material = ({ data, isSelected, onSelect }: MaterialProps) => {
 						}
 					>
 						<div ref={contentRef}>
-							{(isSelected || shouldRender) && (
+							{isSelected && (
 								<div
 									className={`transition-opacity duration-300 ${
 										isSelected ? "opacity-100" : "opacity-0"
