@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCircle } from "../../hooks/useCircle";
+import { containerHeight, containerWidth } from "../../utils/constant";
 import Material from "./Material";
 
 const materials = [
@@ -57,6 +59,29 @@ const materials = [
 const MaterialSection = () => {
 	const [selectedId, setSelectedId] = useState<number | null>(null);
 
+	const { circles } = useCircle();
+
+	const handleSubmit = () => {
+		const selectedMaterial = materials.find((mat) => mat.id === selectedId);
+
+		const circlesWithPercentage = circles.map((circle) => {
+			const xPercent = (circle.x / containerWidth) * 100;
+			const yPercent = (circle.y / containerHeight) * 100;
+
+			return {
+				...circle,
+				xPercent: `${xPercent.toFixed(2)}%`,
+				yPercent: `${yPercent.toFixed(2)}%`,
+			};
+		});
+
+		const submitResult = {
+			selectedMaterial: selectedMaterial || "No material selected",
+			circles: circlesWithPercentage,
+		};
+		console.log("Submission Result:", submitResult);
+	};
+
 	return (
 		<div className="space-y-4">
 			{materials.map((mat) => (
@@ -69,6 +94,11 @@ const MaterialSection = () => {
 					}
 				/>
 			))}
+			<div className="text-right">
+				<button className="btn-primary" onClick={handleSubmit}>
+					Submit
+				</button>
+			</div>
 		</div>
 	);
 };
