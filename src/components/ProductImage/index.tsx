@@ -69,7 +69,7 @@ const ProductImage = () => {
 		<div className="bg-apple-gray-100 rounded-apple p-6 @md:p-8 flex items-center justify-center">
 			<div
 				ref={containerRef}
-				className="relative product-image cursor-move rounded-lg overflow-hidden shadow-apple"
+				className="relative product-image cursor-move rounded-apple overflow-hidden "
 				style={{
 					width: `${containerWidth}px`,
 					height: `${containerHeight}px`,

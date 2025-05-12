@@ -61,7 +61,7 @@ const InputSection = () => {
 		<div className="card flex flex-col gap-7">
 			<div className="flex items-center justify-between">
 				<h2 className="text-xl font-medium text-start text-apple-dark">
-					Add Circle
+					Add <span className="text-apple-secondary">Circle</span>
 				</h2>
 				<img
 					src={plusIcon}
@@ -71,8 +71,8 @@ const InputSection = () => {
 				/>
 			</div>
 
-			<div className="space-y-5 h-52 overflow-y-scroll apple-scrollbar">
-				<div className="flex justify-around ">
+			<div className="space-y-3 max-h-52 overflow-y-scroll apple-scrollbar">
+				<div className="flex justify-around text-apple-gray-600">
 					<p>Width</p>
 					<p>Height</p>
 				</div>

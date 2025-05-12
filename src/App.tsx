@@ -1,5 +1,6 @@
 import "./App.css";
 import InputSection from "./components/InputSection";
+import MaterialSection from "./components/MaterialSection";
 import ProductImage from "./components/ProductImage";
 import { CircleProvider } from "./context/CircleContext";
 
@@ -12,8 +13,9 @@ function App() {
 						<div className="@lg:col-span-8">
 							<ProductImage />
 						</div>
-						<div className="@lg:col-span-4">
+						<div className="@lg:col-span-4 space-y-6">
 							<InputSection />
+							<MaterialSection />
 						</div>
 					</div>
 				</div>
